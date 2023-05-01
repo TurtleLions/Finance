@@ -45,7 +45,9 @@ class SearchAdapter(var stockList: MutableList<Stock>):RecyclerView.Adapter<Sear
         val context = viewHolder.textViewName.context
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-
+        viewHolder.textViewName.text = stockList[position].name
+        viewHolder.textViewSymbol.text = stockList[position].ticker
+        viewHolder.textViewExchange.text = stockList[position].exchange
     }
 
     // Return the size of your dataset (invoked by the layout manager)
