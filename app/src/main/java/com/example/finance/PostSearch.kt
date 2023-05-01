@@ -22,7 +22,7 @@ class PostSearch : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPostsearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val query = intent.getStringExtra(MainActivity.EXTRA_SEARCH)?:""
+        val query = intent.getStringExtra(MainActivity.EXTRA_SEARCH)?.uppercase() ?:""
         val inputStream = resources.openRawResource(R.raw.stock_list)
         val jsonString = inputStream.bufferedReader().use{
             it.readText()
@@ -30,10 +30,10 @@ class PostSearch : AppCompatActivity() {
         val gson = Gson()
         val type = object : TypeToken<List<Stock>>() {}.type
         var list1 = gson.fromJson<List<Stock>>(jsonString, type).toMutableList()
-        var predicate1 = Predicate { stock: Stock -> !stock.ticker.contains(query) }
+        var predicate1 = Predicate { stock: Stock -> !stock.ticker.uppercase().contains(query) }
         var newList1 = remove(list1, predicate1)
         var list2 = gson.fromJson<List<Stock>>(jsonString, type).toMutableList()
-        var predicate2 = Predicate { stock: Stock -> !stock.name.contains(query) }
+        var predicate2 = Predicate { stock: Stock -> !stock.name.uppercase().contains(query) }
         var newList2 = remove(list2, predicate2)
         var usedList = (newList1+newList2).toMutableList()
         adapter = SearchAdapter(usedList)
