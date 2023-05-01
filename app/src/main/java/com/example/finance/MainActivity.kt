@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.button2.setOnClickListener {
+        binding.mainButtonStart.setOnClickListener {
             Log.d(TAG, "button clicked")
             val intent = Intent(this, PostSearch::class.java)
             intent.putExtra(EXTRA_SEARCH,binding.editTextStocks.text.toString())
