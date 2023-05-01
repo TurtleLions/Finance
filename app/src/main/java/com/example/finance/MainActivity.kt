@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         binding.mainButtonStart.setOnClickListener {
-            val intent = Intent(this, Post_Search::class.java)
+            val intent = Intent(this, PostSearch::class.java)
             startActivity(intent)
         }
 
