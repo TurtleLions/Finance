@@ -6,6 +6,10 @@ import android.os.Bundle
 import com.example.finance.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    companion object{
+        const val TAG = "MainActivity"
+        val EXTRA_SEARCH = "search"
+    }
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.mainButtonStart.setOnClickListener {
             val intent = Intent(this, PostSearch::class.java)
+            intent.putExtra(EXTRA_SEARCH,binding.editTextStocks.text.toString())
             startActivity(intent)
         }
 
