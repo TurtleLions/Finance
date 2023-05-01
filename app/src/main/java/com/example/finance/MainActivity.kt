@@ -1,5 +1,6 @@
 package com.example.finance
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.finance.databinding.ActivityMainBinding
@@ -11,8 +12,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_main)
 
-        binding.button.setOnClickListener {
-            
+        binding.mainButtonStart.setOnClickListener {
+            val intent = Intent(this, Post_Search::class.java)
+            startActivity(intent)
         }
 
     }
