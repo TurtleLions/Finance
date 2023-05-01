@@ -21,7 +21,7 @@ class PostSearch : AppCompatActivity() {
         Log.d(TAG, "post star")
         super.onCreate(savedInstanceState)
         binding = ActivityPostsearchBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_postsearch)
+        setContentView(binding.root)
         val query = intent.getStringExtra(MainActivity.EXTRA_SEARCH)?:""
         val inputStream = resources.openRawResource(R.raw.stock_list)
         val jsonString = inputStream.bufferedReader().use{
