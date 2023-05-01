@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4026268115942029" />
+        <entry key="app/src/main/res/layout/activity_postsearch.xml" value="0.4026268115942029" />
+        <entry key="app/src/main/res/layout/activity_searchable.xml" value="0.4026268115942029" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3225" />
+        <entry key="app/src/main/res/xml/searchable.xml" value="0.4026268115942029" />
       </map>
     </option>
   </component>
