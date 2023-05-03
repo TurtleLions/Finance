@@ -13,6 +13,7 @@ import java.util.*
 class SearchAdapter(var stockList: MutableList<Stock>):RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
     companion object{
         val TAG = "Search Adapter"
+        val EXTRA_CURRENTSTOCK = "current stock"
     }
 
     /**
@@ -48,6 +49,12 @@ class SearchAdapter(var stockList: MutableList<Stock>):RecyclerView.Adapter<Sear
         viewHolder.textViewName.text = stockList[position].name
         viewHolder.textViewSymbol.text = stockList[position].ticker
         viewHolder.textViewExchange.text = stockList[position].exchange
+        viewHolder.layout.setOnClickListener {
+            val detailActivity = Intent(it.context, StockDetailActivity::class.java).apply {
+                putExtra(EXTRA_CURRENTSTOCK, stockList[position])
+            }
+            it.context.startActivity(detailActivity)
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
