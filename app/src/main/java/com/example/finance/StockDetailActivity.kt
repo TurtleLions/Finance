@@ -11,6 +11,7 @@ import retrofit2.Response
 class StockDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStockDetailBinding
     private lateinit var stock: Stock
+    private lateinit var stockData:StockData
     companion object{
         val TAG = "Stock Detail Activity"
         val EXTRA_CURRENTSTOCK = "current stock"
@@ -27,18 +28,16 @@ class StockDetailActivity : AppCompatActivity() {
             val FinanceDataService = RetrofitHelper.getInstance().create(FinanceDataService::class.java)
             val stockDataCall = FinanceDataService.getStockData(function,
                 symbol, Constants.API_KEY)
-            stockDataCall.enqueue(object: Callback<> {
+            stockDataCall.enqueue(object: Callback<StockData> {
                 override fun onResponse(
-                    call: Call<PlayerData>,
-                    response: Response<PlayerData>
+                    call: Call<StockData>,
+                    response: Response<StockData>
                 ) {
                     Log.d(TAG, "onResponse: ${response.body()}")
-                    if(response.body()?.status=="ok"){
-                        playerData = response.body()!!
-                    }
+                    stockData = response.body()!!
                 }
 
-                override fun onFailure(call: Call<PlayerData>, t: Throwable) {
+                override fun onFailure(call: Call<StockData>, t: Throwable) {
                     Log.d(TAG, "onFailure: ${t.message}")
                 }
             })
