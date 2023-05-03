@@ -24,23 +24,24 @@ class StockDetailActivity : AppCompatActivity() {
         binding.detailName.text = stock.name
         binding.detailSymbol.text = stock.ticker
         binding.detailExchange.text = stock.exchange
-        suspend fun getStockDataByApiCall(function:String, symbol:String) {
-            val FinanceDataService = RetrofitHelper.getInstance().create(FinanceDataService::class.java)
-            val stockDataCall = FinanceDataService.getStockData(function,
-                symbol, Constants.API_KEY)
-            stockDataCall.enqueue(object: Callback<StockData> {
-                override fun onResponse(
-                    call: Call<StockData>,
-                    response: Response<StockData>
-                ) {
-                    Log.d(TAG, "onResponse: ${response.body()}")
-                    stockData = response.body()!!
-                }
 
-                override fun onFailure(call: Call<StockData>, t: Throwable) {
-                    Log.d(TAG, "onFailure: ${t.message}")
-                }
-            })
-        }
+    }
+    suspend fun getStockDataByApiCall(function:String, symbol:String) {
+        val FinanceDataService = RetrofitHelper.getInstance().create(FinanceDataService::class.java)
+        val stockDataCall = FinanceDataService.getStockData(function,
+            symbol, Constants.API_KEY)
+        stockDataCall.enqueue(object: Callback<StockData> {
+            override fun onResponse(
+                call: Call<StockData>,
+                response: Response<StockData>
+            ) {
+                Log.d(TAG, "onResponse: ${response.body()}")
+                stockData = response.body()!!
+            }
+
+            override fun onFailure(call: Call<StockData>, t: Throwable) {
+                Log.d(TAG, "onFailure: ${t.message}")
+            }
+        })
     }
 }
