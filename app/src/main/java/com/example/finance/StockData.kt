@@ -1,3 +1,5 @@
 package com.example.finance
 
-data class StockData()
+data class StockData() {
+
+}
