@@ -8,9 +8,12 @@ import kotlinx.parcelize.Parcelize
 data class StockData(
     @SerializedName("Meta Data")
     val metadata:MetaData,
-    @SerializedName("Time Series (5min)")
-    val fiveMinTimeSeries : Map<String, >?
-
+    @SerializedName("Time Series (Daily)")
+    val dailyTimeSeries: Map<String, InterStockData>?,
+    @SerializedName("Weekly Adjusted Time Series")
+    val weeklyTimeSeries: Map<String, InterStockData>?,
+    @SerializedName("Monthly Adjusted Time Series")
+    val monthlyTimeSeries: Map<String, InterStockData>?
 ):Parcelable{
     @Parcelize
     data class MetaData(
