@@ -57,6 +57,11 @@ class StockDetailActivity : AppCompatActivity() {
                 getWeeklyStockDataByApiCall(Constants.WEEKLY, binding.detailSymbol.text.toString())
                 getMonthStockDataByApiCall(Constants.MONTHLY, binding.detailSymbol.text.toString())
             }
+            while(!this@StockDetailActivity::dailyStockData.isInitialized||this@StockDetailActivity::weeklyStockData.isInitialized||this@StockDetailActivity::monthlyStockData.isInitialized){
+            }
+            Log.d(TAG, dailyStockData.toString())
+            Log.d(TAG, weeklyStockData.toString())
+            Log.d(TAG, monthlyStockData.toString())
         }
         val series: LineGraphSeries<DataPoint> = LineGraphSeries(
             arrayOf(
@@ -94,6 +99,7 @@ class StockDetailActivity : AppCompatActivity() {
     }
     suspend fun getDailyStockDataByApiCall(function:String, symbol:String) {
         val FinanceDataService = RetrofitHelper.getInstance().create(FinanceDataService::class.java)
+        Log.d(TAG, function +" "+symbol)
         val stockDataCall = FinanceDataService.getStockData(function,
             symbol, Constants.API_KEY)
         stockDataCall.enqueue(object: Callback<StockData> {
@@ -106,12 +112,13 @@ class StockDetailActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<StockData>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message}")
+                Log.d(TAG, "onFailure: ${t.cause}")
             }
         })
     }
     suspend fun getWeeklyStockDataByApiCall(function:String, symbol:String) {
         val FinanceDataService = RetrofitHelper.getInstance().create(FinanceDataService::class.java)
+        Log.d(TAG, function +" "+symbol)
         val stockDataCall = FinanceDataService.getStockData(function,
             symbol, Constants.API_KEY)
         stockDataCall.enqueue(object: Callback<StockData> {
@@ -124,12 +131,13 @@ class StockDetailActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<StockData>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message}")
+                Log.d(TAG, "onFailure: ${t.cause}")
             }
         })
     }
     suspend fun getMonthStockDataByApiCall(function:String, symbol:String) {
         val FinanceDataService = RetrofitHelper.getInstance().create(FinanceDataService::class.java)
+        Log.d(TAG, function +" "+symbol)
         val stockDataCall = FinanceDataService.getStockData(function,
             symbol, Constants.API_KEY)
         stockDataCall.enqueue(object: Callback<StockData> {
@@ -142,7 +150,7 @@ class StockDetailActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<StockData>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message}")
+                Log.d(TAG, "onFailure: ${t.cause}")
             }
         })
     }
