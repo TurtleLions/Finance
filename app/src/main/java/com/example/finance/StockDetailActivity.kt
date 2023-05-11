@@ -29,7 +29,6 @@ class StockDetailActivity : AppCompatActivity() {
         binding.detailExchange.text = stock.exchange
         GlobalScope.launch {
             async {
-                getStockDataByApiCall()
             }
         }
 
