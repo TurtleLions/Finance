@@ -1,10 +1,11 @@
 package com.example.finance
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.example.finance.databinding.ActivityMainBinding
+import java.util.function.Consumer
 
 class MainActivity : AppCompatActivity() {
     companion object{
