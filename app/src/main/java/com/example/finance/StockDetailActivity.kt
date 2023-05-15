@@ -58,6 +58,7 @@ class StockDetailActivity : AppCompatActivity() {
                 getMonthStockDataByApiCall(Constants.MONTHLY, binding.detailSymbol.text.toString())
             }
             while(!this@StockDetailActivity::dailyStockData.isInitialized||this@StockDetailActivity::weeklyStockData.isInitialized||this@StockDetailActivity::monthlyStockData.isInitialized){
+
             }
             Log.d(TAG, dailyStockData.toString())
             Log.d(TAG, weeklyStockData.toString())
@@ -99,8 +100,8 @@ class StockDetailActivity : AppCompatActivity() {
     }
     suspend fun getDailyStockDataByApiCall(function:String, symbol:String) {
         val FinanceDataService = RetrofitHelper.getInstance().create(FinanceDataService::class.java)
-        Log.d(TAG, function +" "+symbol)
-        val stockDataCall = FinanceDataService.getStockData(function,
+        //Log.d(TAG, function +" "+symbol)
+        val stockDataCall = FinanceDataService.getDailyStockData(function,
             symbol, Constants.API_KEY)
         stockDataCall.enqueue(object: Callback<StockData> {
             override fun onResponse(
@@ -118,8 +119,8 @@ class StockDetailActivity : AppCompatActivity() {
     }
     suspend fun getWeeklyStockDataByApiCall(function:String, symbol:String) {
         val FinanceDataService = RetrofitHelper.getInstance().create(FinanceDataService::class.java)
-        Log.d(TAG, function +" "+symbol)
-        val stockDataCall = FinanceDataService.getStockData(function,
+        //Log.d(TAG, function +" "+symbol)
+        val stockDataCall = FinanceDataService.getWeeklyStockData(function,
             symbol, Constants.API_KEY)
         stockDataCall.enqueue(object: Callback<StockData> {
             override fun onResponse(
@@ -137,8 +138,8 @@ class StockDetailActivity : AppCompatActivity() {
     }
     suspend fun getMonthStockDataByApiCall(function:String, symbol:String) {
         val FinanceDataService = RetrofitHelper.getInstance().create(FinanceDataService::class.java)
-        Log.d(TAG, function +" "+symbol)
-        val stockDataCall = FinanceDataService.getStockData(function,
+        //Log.d(TAG, function +" "+symbol)
+        val stockDataCall = FinanceDataService.getMonthlyStockData(function,
             symbol, Constants.API_KEY)
         stockDataCall.enqueue(object: Callback<StockData> {
             override fun onResponse(
