@@ -7,12 +7,12 @@ import retrofit2.http.Url
 
 interface FinanceDataService {
     @GET
-    fun getDailyStockData(
+    fun getStockData(
         @Query("function") function: String,
         @Query("symbol") symbol:String,
         @Query("apikey") api_key:String
     ):Call<StockData>
-    @GET
+    /**@GET
     fun getWeeklyStockData(
         @Query("function") function: String,
         @Query("symbol") symbol:String,
@@ -23,5 +23,5 @@ interface FinanceDataService {
         @Query("function") function: String,
         @Query("symbol") symbol:String,
         @Query("apikey") api_key:String
-    ):Call<StockData>
+    ):Call<StockData>**/
 }

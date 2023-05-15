@@ -54,6 +54,11 @@ class StockDetailActivity : AppCompatActivity() {
         GlobalScope.launch {
             async {
                 getDailyStockDataByApiCall(Constants.DAILY, binding.detailSymbol.text.toString())
+            }
+        }
+        /**GlobalScope.launch {
+            async {
+                getDailyStockDataByApiCall(Constants.DAILY, binding.detailSymbol.text.toString())
                 getWeeklyStockDataByApiCall(Constants.WEEKLY, binding.detailSymbol.text.toString())
                 getMonthStockDataByApiCall(Constants.MONTHLY, binding.detailSymbol.text.toString())
             }
@@ -63,7 +68,7 @@ class StockDetailActivity : AppCompatActivity() {
             Log.d(TAG, dailyStockData.toString())
             Log.d(TAG, weeklyStockData.toString())
             Log.d(TAG, monthlyStockData.toString())
-        }
+        }**/
 /*
 //        val series: LineGraphSeries<DataPoint> = LineGraphSeries(
 //            arrayOf(
@@ -103,7 +108,7 @@ class StockDetailActivity : AppCompatActivity() {
     suspend fun getDailyStockDataByApiCall(function:String, symbol:String) {
         val FinanceDataService = RetrofitHelper.getInstance().create(FinanceDataService::class.java)
         Log.d(TAG, function +" "+symbol)
-        val stockDataCall = FinanceDataService.getDailyStockData(function,
+        val stockDataCall = FinanceDataService.getStockData(function,
             symbol, Constants.API_KEY)
         stockDataCall.enqueue(object: Callback<StockData> {
             override fun onResponse(
@@ -122,7 +127,7 @@ class StockDetailActivity : AppCompatActivity() {
     suspend fun getWeeklyStockDataByApiCall(function:String, symbol:String) {
         val FinanceDataService = RetrofitHelper.getInstance().create(FinanceDataService::class.java)
         Log.d(TAG, function +" "+symbol)
-        val stockDataCall = FinanceDataService.getWeeklyStockData(function,
+        val stockDataCall = FinanceDataService.getStockData(function,
             symbol, Constants.API_KEY)
         stockDataCall.enqueue(object: Callback<StockData> {
             override fun onResponse(
@@ -141,7 +146,7 @@ class StockDetailActivity : AppCompatActivity() {
     suspend fun getMonthStockDataByApiCall(function:String, symbol:String) {
         val FinanceDataService = RetrofitHelper.getInstance().create(FinanceDataService::class.java)
         Log.d(TAG, function +" "+symbol)
-        val stockDataCall = FinanceDataService.getMonthlyStockData(function,
+        val stockDataCall = FinanceDataService.getStockData(function,
             symbol, Constants.API_KEY)
         stockDataCall.enqueue(object: Callback<StockData> {
             override fun onResponse(
