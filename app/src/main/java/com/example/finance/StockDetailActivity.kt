@@ -1,10 +1,10 @@
 package com.example.finance
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import com.example.finance.databinding.ActivityStockDetailBinding
 import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
@@ -15,8 +15,10 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.Instant
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 //import com.jjoe64.graphview.GraphView
 //import com.jjoe64.graphview.series.DataPoint
@@ -66,58 +68,61 @@ class StockDetailActivity : AppCompatActivity() {
                 getWeeklyStockDataByApiCall(Constants.WEEKLY, binding.detailSymbol.text.toString())
                 getMonthStockDataByApiCall(Constants.MONTHLY, binding.detailSymbol.text.toString())
             }
-            while(!this@StockDetailActivity::dailyStockData.isInitialized||this@StockDetailActivity::weeklyStockData.isInitialized||this@StockDetailActivity::monthlyStockData.isInitialized){
+            while (!this@StockDetailActivity::dailyStockData.isInitialized || !this@StockDetailActivity::weeklyStockData.isInitialized || !this@StockDetailActivity::monthlyStockData.isInitialized) {
 
             }
             Log.d(TAG, dailyStockData.toString())
             Log.d(TAG, weeklyStockData.toString())
             Log.d(TAG, monthlyStockData.toString())
-        }
 
-        lineGraphView = findViewById(R.id.idGraphView)
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val current = LocalDateTime.now().format(formatter)
-        
 
-        val series: LineGraphSeries<DataPoint> = LineGraphSeries(
-            arrayOf(
-                // on below line we are adding
-                // each point on our x and y axis.
-                DataPoint(0.0, dailyStockData.dailyTimeSeries?.get("$current")?.get("2. high")
-                DataPoint(1.0, 3.0),
-                DataPoint(2.0, 4.0),
-                DataPoint(3.0, 9.0),
-                DataPoint(4.0, 6.0),
-                DataPoint(5.0, 3.0),
-                DataPoint(6.0, 6.0),
-                DataPoint(7.0, 1.0),
-                DataPoint(8.0, 2.0)
+            lineGraphView = findViewById(R.id.idGraphView)
+            val now = Instant.now()
+            val yesterday = Instant.now().minus(1, ChronoUnit.DAYS)
+            Log.d(TAG, now.toString())
+            Log.d(TAG, yesterday.toString())
+
+
+            val series: LineGraphSeries<DataPoint> = LineGraphSeries(
+                arrayOf(
+                    // on below line we are adding
+                    // each point on our x and y axis.
+                    //dailyStockData.dailyTimeSeries?.get("$")?.get("2. high")
+                    //?.let { DataPoint(0.0, it.toDouble()) },
+                    DataPoint(1.0, 3.0),
+                    DataPoint(2.0, 4.0),
+                    DataPoint(3.0, 9.0),
+                    DataPoint(4.0, 6.0),
+                    DataPoint(5.0, 3.0),
+                    DataPoint(6.0, 6.0),
+                    DataPoint(7.0, 1.0),
+                    DataPoint(8.0, 2.0)
+                )
             )
-        )
 
-        // on below line adding animation
-        lineGraphView.animate()
+            // on below line adding animation
+            lineGraphView.animate()
 
-        // on below line we are setting scrollable
-        // for point graph view
-        lineGraphView.viewport.isScrollable = true
+            // on below line we are setting scrollable
+            // for point graph view
+            lineGraphView.viewport.isScrollable = true
 
-        // on below line we are setting scalable.
-        lineGraphView.viewport.isScalable = true
+            // on below line we are setting scalable.
+            lineGraphView.viewport.isScalable = true
 
-        // on below line we are setting scalable y
-        lineGraphView.viewport.setScalableY(true)
+            // on below line we are setting scalable y
+            lineGraphView.viewport.setScalableY(true)
 
-        // on below line we are setting scrollable y
-        lineGraphView.viewport.setScrollableY(true)
+            // on below line we are setting scrollable y
+            lineGraphView.viewport.setScrollableY(true)
 
-        // on below line we are setting color for series.
-        series.color = R.color.purple_200
+            // on below line we are setting color for series.
+            series.color = R.color.purple_200
 
-        // on below line we are adding
-        // data series to our graph view.
-        lineGraphView.addSeries(series)
-
+            // on below line we are adding
+            // data series to our graph view.
+            lineGraphView.addSeries(series)
+        }
 
     }
     suspend fun getDailyStockDataByApiCall(function:String, symbol:String) {
