@@ -54,11 +54,6 @@ class StockDetailActivity : AppCompatActivity() {
         GlobalScope.launch {
             async {
                 getDailyStockDataByApiCall(Constants.DAILY, binding.detailSymbol.text.toString())
-            }
-        }
-        /**GlobalScope.launch {
-            async {
-                getDailyStockDataByApiCall(Constants.DAILY, binding.detailSymbol.text.toString())
                 getWeeklyStockDataByApiCall(Constants.WEEKLY, binding.detailSymbol.text.toString())
                 getMonthStockDataByApiCall(Constants.MONTHLY, binding.detailSymbol.text.toString())
             }
@@ -68,8 +63,8 @@ class StockDetailActivity : AppCompatActivity() {
             Log.d(TAG, dailyStockData.toString())
             Log.d(TAG, weeklyStockData.toString())
             Log.d(TAG, monthlyStockData.toString())
-        }**/
-/*
+        }
+
 //        val series: LineGraphSeries<DataPoint> = LineGraphSeries(
 //            arrayOf(
 //                // on below line we are adding
@@ -102,7 +97,7 @@ class StockDetailActivity : AppCompatActivity() {
 //        // on below line we are setting scrollable y
 //        lineGraphView.viewport.setScrollableY(true)
 //        lineGraphView.addSeries(series)
-*/
+
 
     }
     suspend fun getDailyStockDataByApiCall(function:String, symbol:String) {
@@ -120,7 +115,7 @@ class StockDetailActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<StockData>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.cause}")
+                Log.d(TAG, "onFailure: ${t.message}")
             }
         })
     }
