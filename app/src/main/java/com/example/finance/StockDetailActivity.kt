@@ -79,6 +79,11 @@ class StockDetailActivity : AppCompatActivity() {
             lineGraphView = findViewById(R.id.idGraphView)
             val now = Instant.now()
             val yesterday = Instant.now().minus(1, ChronoUnit.DAYS)
+            val three = Instant.now().minus(2, ChronoUnit.DAYS)
+            val four = Instant.now().minus(3, ChronoUnit.DAYS)
+            val five = Instant.now().minus(4, ChronoUnit.DAYS)
+            val six = Instant.now().minus(5, ChronoUnit.DAYS)
+            val seven = Instant.now().minus(6, ChronoUnit.DAYS)
             Log.d(TAG, now.toString())
             Log.d(TAG, yesterday.toString())
 
@@ -89,7 +94,7 @@ class StockDetailActivity : AppCompatActivity() {
                     // each point on our x and y axis.
                     //dailyStockData.dailyTimeSeries?.get("$")?.get("2. high")
                     //?.let { DataPoint(0.0, it.toDouble()) },
-                    DataPoint(1.0, 3.0),
+                    DataPoint(0.0, 3.0),
                     DataPoint(2.0, 4.0),
                     DataPoint(3.0, 9.0),
                     DataPoint(4.0, 6.0),
