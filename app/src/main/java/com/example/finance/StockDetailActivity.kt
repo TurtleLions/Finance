@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.finance.databinding.ActivityStockDetailBinding
 import com.jjoe64.graphview.GraphView
+import com.jjoe64.graphview.helper.StaticLabelsFormatter
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import kotlinx.coroutines.GlobalScope
@@ -15,10 +16,11 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import java.util.*
+
 
 //import com.jjoe64.graphview.GraphView
 //import com.jjoe64.graphview.series.DataPoint
@@ -77,15 +79,32 @@ class StockDetailActivity : AppCompatActivity() {
 
 
             lineGraphView = findViewById(R.id.idGraphView)
-            val now = Instant.now()
-            val yesterday = Instant.now().minus(1, ChronoUnit.DAYS)
+            val formatter = SimpleDateFormat("MM-dd")
+            val one = Instant.now()
+            val oneDate: Date = Date.from(one)
+            val formattedOneDate = formatter.format(oneDate)
+            val two = Instant.now().minus(1, ChronoUnit.DAYS)
+            val twoDate: Date = Date.from(two)
+            val formattedTwoDate = formatter.format(twoDate)
             val three = Instant.now().minus(2, ChronoUnit.DAYS)
+            val threeDate: Date = Date.from(three)
+            val formattedThreeDate = formatter.format(threeDate)
             val four = Instant.now().minus(3, ChronoUnit.DAYS)
+            val fourDate: Date = Date.from(four)
+            val formattedFourDate = formatter.format(fourDate)
             val five = Instant.now().minus(4, ChronoUnit.DAYS)
+            val fiveDate: Date = Date.from(five)
+            val formattedFiveDate = formatter.format(fiveDate)
             val six = Instant.now().minus(5, ChronoUnit.DAYS)
+            val sixDate: Date = Date.from(six)
+            val formattedSixDate = formatter.format(sixDate)
             val seven = Instant.now().minus(6, ChronoUnit.DAYS)
-            Log.d(TAG, now.toString())
-            Log.d(TAG, yesterday.toString())
+            val sevenDate: Date = Date.from(seven)
+            val formattedSevenDate = formatter.format(sevenDate)
+            Log.d(TAG, one.toString())
+            Log.d(TAG, two.toString())
+            Log.d(TAG, formattedOneDate)
+            Log.d(TAG, formattedTwoDate)
 
 
             val series: LineGraphSeries<DataPoint> = LineGraphSeries(
@@ -94,39 +113,31 @@ class StockDetailActivity : AppCompatActivity() {
                     // each point on our x and y axis.
                     //dailyStockData.dailyTimeSeries?.get("$")?.get("2. high")
                     //?.let { DataPoint(0.0, it.toDouble()) },
-                    DataPoint(0.0, 3.0),
-                    DataPoint(2.0, 4.0),
-                    DataPoint(3.0, 9.0),
-                    DataPoint(4.0, 6.0),
-                    DataPoint(5.0, 3.0),
-                    DataPoint(6.0, 6.0),
-                    DataPoint(7.0, 1.0),
-                    DataPoint(8.0, 2.0)
+                    DataPoint(sevenDate, 3.0),
+                    DataPoint(sixDate, 4.0),
+                    DataPoint(fiveDate, 9.0),
+                    DataPoint(fourDate, 6.0),
+                    DataPoint(threeDate, 3.0),
+                    DataPoint(twoDate, 6.0),
+                    DataPoint(oneDate, 1.0)
                 )
             )
-
-            // on below line adding animation
-            lineGraphView.animate()
-
-            // on below line we are setting scrollable
-            // for point graph view
-            lineGraphView.viewport.isScrollable = true
-
-            // on below line we are setting scalable.
-            lineGraphView.viewport.isScalable = true
-
-            // on below line we are setting scalable y
-            lineGraphView.viewport.setScalableY(true)
-
-            // on below line we are setting scrollable y
-            lineGraphView.viewport.setScrollableY(true)
-
-            // on below line we are setting color for series.
-            series.color = R.color.purple_200
-
-            // on below line we are adding
-            // data series to our graph view.
             lineGraphView.addSeries(series)
+
+// set manual x bounds to have nice steps
+            lineGraphView.viewport.setMinX(sevenDate.time.toDouble())
+            lineGraphView.viewport.setMaxX(oneDate.time.toDouble())
+            val staticLabelsFormatter = StaticLabelsFormatter(lineGraphView)
+            staticLabelsFormatter.setHorizontalLabels(arrayOf(formattedSevenDate,formattedSixDate,formattedFiveDate,formattedFourDate,formattedThreeDate,formattedTwoDate,formattedOneDate))
+            lineGraphView.gridLabelRenderer.labelFormatter = staticLabelsFormatter
+            lineGraphView.gridLabelRenderer.labelsSpace = 60
+            lineGraphView.gridLabelRenderer.padding = 60
+            lineGraphView.gridLabelRenderer.setHorizontalLabelsAngle(45)
+            lineGraphView.viewport.isXAxisBoundsManual = true
+            lineGraphView.viewport.setMinY(0.toDouble())
+            lineGraphView.viewport.isYAxisBoundsManual =true
+
+
         }
 
     }
