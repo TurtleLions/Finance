@@ -101,10 +101,23 @@ class StockDetailActivity : AppCompatActivity() {
             val seven = Instant.now().minus(6, ChronoUnit.DAYS)
             val sevenDate: Date = Date.from(seven)
             val formattedSevenDate = formatter.format(sevenDate)
+            val eight = Instant.now().minus(7, ChronoUnit.DAYS)
+            val eightDate: Date = Date.from(eight)
+            val formattedEightDate = formatter.format(eightDate)
+            val nine = Instant.now().minus(8, ChronoUnit.DAYS)
+            val nineDate: Date = Date.from(nine)
+            val formattedNineDate = formatter.format(nineDate)
+            val ten = Instant.now().minus(9, ChronoUnit.DAYS)
+            val tenDate: Date = Date.from(ten)
+            val formattedTenDate = formatter.format(tenDate)
+            val eleven = Instant.now().minus(10, ChronoUnit.DAYS)
+            val elevenDate: Date = Date.from(eleven)
+            val formattedElevenDate = formatter.format(elevenDate)
             Log.d(TAG, one.toString())
             Log.d(TAG, two.toString())
             Log.d(TAG, formattedOneDate)
             Log.d(TAG, formattedTwoDate)
+            Log.d(TAG, elevenDate.toString())
 
 
             val series: LineGraphSeries<DataPoint> = LineGraphSeries(
@@ -113,6 +126,10 @@ class StockDetailActivity : AppCompatActivity() {
                     // each point on our x and y axis.
                     //dailyStockData.dailyTimeSeries?.get("$")?.get("2. high")
                     //?.let { DataPoint(0.0, it.toDouble()) },
+                    //DataPoint(elevenDate, 3.0),
+                    //DataPoint(tenDate, 1.0),
+                    //DataPoint(nineDate, 7.0),
+                    //DataPoint(eightDate, 5.0),
                     DataPoint(sevenDate, 3.0),
                     DataPoint(sixDate, 4.0),
                     DataPoint(fiveDate, 9.0),
@@ -122,13 +139,16 @@ class StockDetailActivity : AppCompatActivity() {
                     DataPoint(oneDate, 1.0)
                 )
             )
+
             lineGraphView.addSeries(series)
 
 // set manual x bounds to have nice steps
             lineGraphView.viewport.setMinX(sevenDate.time.toDouble())
             lineGraphView.viewport.setMaxX(oneDate.time.toDouble())
             val staticLabelsFormatter = StaticLabelsFormatter(lineGraphView)
-            staticLabelsFormatter.setHorizontalLabels(arrayOf(formattedSevenDate,formattedSixDate,formattedFiveDate,formattedFourDate,formattedThreeDate,formattedTwoDate,formattedOneDate))
+            val x = arrayOf(formattedSevenDate,formattedSixDate,formattedFiveDate,formattedFourDate,formattedThreeDate,formattedTwoDate,formattedOneDate)
+            Log.d(TAG, Arrays.toString(x))
+            staticLabelsFormatter.setHorizontalLabels(x)
             lineGraphView.gridLabelRenderer.labelFormatter = staticLabelsFormatter
             lineGraphView.gridLabelRenderer.labelsSpace = 60
             lineGraphView.gridLabelRenderer.padding = 60
@@ -136,8 +156,10 @@ class StockDetailActivity : AppCompatActivity() {
             lineGraphView.viewport.isXAxisBoundsManual = true
             lineGraphView.viewport.setMinY(0.toDouble())
             lineGraphView.viewport.isYAxisBoundsManual =true
-
-
+            lineGraphView.gridLabelRenderer.setNumHorizontalLabels(7)
+            lineGraphView.legendRenderer.isVisible = true
+            lineGraphView.gridLabelRenderer.isHorizontalLabelsVisible=true
+            Log.d(TAG, lineGraphView.gridLabelRenderer.numHorizontalLabels.toString())
         }
 
     }
