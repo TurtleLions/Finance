@@ -1,15 +1,15 @@
 package com.example.finance
 
+import android.R
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.finance.databinding.ActivityStockDetailBinding
+import com.github.mikephil.charting.charts.LineChart
 import com.jjoe64.graphview.GraphView
-import com.jjoe64.graphview.helper.StaticLabelsFormatter
-import com.jjoe64.graphview.series.DataPoint
-import com.jjoe64.graphview.series.LineGraphSeries
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -33,6 +33,7 @@ class StockDetailActivity : AppCompatActivity() {
     private lateinit var weeklyStockData:StockData
     private lateinit var monthlyStockData:StockData
     private lateinit var lineGraphView: GraphView
+
     private var timeState = 0
     companion object{
         val TAG = "Stock Detail Activity"
@@ -49,6 +50,7 @@ class StockDetailActivity : AppCompatActivity() {
         binding.detailExchange.text = stock.exchange
         binding.buttonTimeGraph.text = "Daily"
 //        lineGraphView = findViewById(R.id.idGraphView)
+        binding.stockGraph
         binding.buttonTimeGraph.setOnClickListener {
             if(timeState==0){
                 binding.buttonTimeGraph.text = "Weekly"
@@ -77,8 +79,9 @@ class StockDetailActivity : AppCompatActivity() {
             Log.d(TAG, weeklyStockData.toString())
             Log.d(TAG, monthlyStockData.toString())
 
+            
 
-            lineGraphView = findViewById(R.id.idGraphView)
+
             val formatter = SimpleDateFormat("MM-dd")
             val one = Instant.now()
             val oneDate: Date = Date.from(one)
@@ -120,45 +123,6 @@ class StockDetailActivity : AppCompatActivity() {
             Log.d(TAG, elevenDate.toString())
 
 
-            val series: LineGraphSeries<DataPoint> = LineGraphSeries(
-                arrayOf(
-                    // on below line we are adding
-                    // each point on our x and y axis.
-                    //dailyStockData.dailyTimeSeries?.get("$")?.get("2. high")
-                    //?.let { DataPoint(0.0, it.toDouble()) },
-                    //DataPoint(elevenDate, 3.0),
-                    //DataPoint(tenDate, 1.0),
-                    //DataPoint(nineDate, 7.0),
-                    //DataPoint(eightDate, 5.0),
-                    DataPoint(sevenDate, 3.0),
-                    DataPoint(sixDate, 4.0),
-                    DataPoint(fiveDate, 9.0),
-                    DataPoint(fourDate, 6.0),
-                    DataPoint(threeDate, 3.0),
-                    DataPoint(twoDate, 6.0),
-                    DataPoint(oneDate, 1.0)
-                )
-            )
-
-            lineGraphView.addSeries(series)
-
-// set manual x bounds to have nice steps
-            lineGraphView.viewport.setMinX(sevenDate.time.toDouble())
-            lineGraphView.viewport.setMaxX(oneDate.time.toDouble())
-            val staticLabelsFormatter = StaticLabelsFormatter(lineGraphView)
-            val x = arrayOf(formattedSevenDate, formattedSixDate, formattedFiveDate, formattedFourDate, formattedThreeDate, formattedTwoDate, formattedOneDate)
-            Log.d(TAG, Arrays.toString(x))
-            staticLabelsFormatter.setHorizontalLabels(x)
-            lineGraphView.gridLabelRenderer.labelFormatter = staticLabelsFormatter
-            lineGraphView.gridLabelRenderer.labelsSpace = 60
-            lineGraphView.gridLabelRenderer.padding = 60
-            lineGraphView.gridLabelRenderer.setHorizontalLabelsAngle(45)
-            lineGraphView.viewport.isXAxisBoundsManual = true
-            lineGraphView.viewport.setMinY(0.toDouble())
-            lineGraphView.viewport.isYAxisBoundsManual = true
-            lineGraphView.gridLabelRenderer.numHorizontalLabels = x.size
-            lineGraphView.gridLabelRenderer.numVerticalLabels = x.size // add this line to set the number of vertical labels
-            Log.d(TAG, lineGraphView.gridLabelRenderer.numHorizontalLabels.toString())
         }
 
     }
