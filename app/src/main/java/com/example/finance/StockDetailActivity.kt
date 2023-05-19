@@ -146,7 +146,7 @@ class StockDetailActivity : AppCompatActivity() {
             lineGraphView.viewport.setMinX(sevenDate.time.toDouble())
             lineGraphView.viewport.setMaxX(oneDate.time.toDouble())
             val staticLabelsFormatter = StaticLabelsFormatter(lineGraphView)
-            val x = arrayOf(formattedSevenDate,formattedSixDate,formattedFiveDate,formattedFourDate,formattedThreeDate,formattedTwoDate,formattedOneDate)
+            val x = arrayOf(formattedSevenDate, formattedSixDate, formattedFiveDate, formattedFourDate, formattedThreeDate, formattedTwoDate, formattedOneDate)
             Log.d(TAG, Arrays.toString(x))
             staticLabelsFormatter.setHorizontalLabels(x)
             lineGraphView.gridLabelRenderer.labelFormatter = staticLabelsFormatter
@@ -155,10 +155,9 @@ class StockDetailActivity : AppCompatActivity() {
             lineGraphView.gridLabelRenderer.setHorizontalLabelsAngle(45)
             lineGraphView.viewport.isXAxisBoundsManual = true
             lineGraphView.viewport.setMinY(0.toDouble())
-            lineGraphView.viewport.isYAxisBoundsManual =true
-            lineGraphView.gridLabelRenderer.setNumHorizontalLabels(7)
-            lineGraphView.legendRenderer.isVisible = true
-            lineGraphView.gridLabelRenderer.isHorizontalLabelsVisible=true
+            lineGraphView.viewport.isYAxisBoundsManual = true
+            lineGraphView.gridLabelRenderer.numHorizontalLabels = x.size
+            lineGraphView.gridLabelRenderer.numVerticalLabels = x.size // add this line to set the number of vertical labels
             Log.d(TAG, lineGraphView.gridLabelRenderer.numHorizontalLabels.toString())
         }
 
