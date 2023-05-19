@@ -1,14 +1,11 @@
 package com.example.finance
 
-import android.R
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.finance.databinding.ActivityStockDetailBinding
-import com.github.mikephil.charting.charts.LineChart
 import com.jjoe64.graphview.GraphView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -33,7 +30,6 @@ class StockDetailActivity : AppCompatActivity() {
     private lateinit var weeklyStockData:StockData
     private lateinit var monthlyStockData:StockData
     private lateinit var lineGraphView: GraphView
-
     private var timeState = 0
     companion object{
         val TAG = "Stock Detail Activity"
@@ -50,7 +46,6 @@ class StockDetailActivity : AppCompatActivity() {
         binding.detailExchange.text = stock.exchange
         binding.buttonTimeGraph.text = "Daily"
 //        lineGraphView = findViewById(R.id.idGraphView)
-        binding.stockGraph
         binding.buttonTimeGraph.setOnClickListener {
             if(timeState==0){
                 binding.buttonTimeGraph.text = "Weekly"
@@ -79,49 +74,22 @@ class StockDetailActivity : AppCompatActivity() {
             Log.d(TAG, weeklyStockData.toString())
             Log.d(TAG, monthlyStockData.toString())
 
-            
-
-
+            var dateArray = mutableListOf<DateObject>()
+            var i = 0
             val formatter = SimpleDateFormat("MM-dd")
-            val one = Instant.now()
-            val oneDate: Date = Date.from(one)
-            val formattedOneDate = formatter.format(oneDate)
-            val two = Instant.now().minus(1, ChronoUnit.DAYS)
-            val twoDate: Date = Date.from(two)
-            val formattedTwoDate = formatter.format(twoDate)
-            val three = Instant.now().minus(2, ChronoUnit.DAYS)
-            val threeDate: Date = Date.from(three)
-            val formattedThreeDate = formatter.format(threeDate)
-            val four = Instant.now().minus(3, ChronoUnit.DAYS)
-            val fourDate: Date = Date.from(four)
-            val formattedFourDate = formatter.format(fourDate)
-            val five = Instant.now().minus(4, ChronoUnit.DAYS)
-            val fiveDate: Date = Date.from(five)
-            val formattedFiveDate = formatter.format(fiveDate)
-            val six = Instant.now().minus(5, ChronoUnit.DAYS)
-            val sixDate: Date = Date.from(six)
-            val formattedSixDate = formatter.format(sixDate)
-            val seven = Instant.now().minus(6, ChronoUnit.DAYS)
-            val sevenDate: Date = Date.from(seven)
-            val formattedSevenDate = formatter.format(sevenDate)
-            val eight = Instant.now().minus(7, ChronoUnit.DAYS)
-            val eightDate: Date = Date.from(eight)
-            val formattedEightDate = formatter.format(eightDate)
-            val nine = Instant.now().minus(8, ChronoUnit.DAYS)
-            val nineDate: Date = Date.from(nine)
-            val formattedNineDate = formatter.format(nineDate)
-            val ten = Instant.now().minus(9, ChronoUnit.DAYS)
-            val tenDate: Date = Date.from(ten)
-            val formattedTenDate = formatter.format(tenDate)
-            val eleven = Instant.now().minus(10, ChronoUnit.DAYS)
-            val elevenDate: Date = Date.from(eleven)
-            val formattedElevenDate = formatter.format(elevenDate)
-            Log.d(TAG, one.toString())
-            Log.d(TAG, two.toString())
-            Log.d(TAG, formattedOneDate)
-            Log.d(TAG, formattedTwoDate)
-            Log.d(TAG, elevenDate.toString())
+            while(i<7) {
+                val instant = Instant.now().minus(i.toLong(), ChronoUnit.DAYS)
+                val dateObject =
+                    DateObject(instant, Date.from(instant), formatter.format(Date.from(instant)))
+                dateArray.add(dateObject)
+                i += 1
+            }
 
+            val entries: MutableList<Map.Entry<*, *>> = ArrayList()
+            for (data in dateArray) {
+                // turn your data into Entry objects
+                entries.add(MutableMap.MutableEntry<Any?, Any?>(, ))
+            }
 
         }
 
