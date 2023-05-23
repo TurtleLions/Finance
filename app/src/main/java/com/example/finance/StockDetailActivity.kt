@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.example.finance.databinding.ActivityStockDetailBinding
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -50,6 +51,7 @@ class StockDetailActivity : AppCompatActivity() {
         binding.buttonTimeGraph.text = "Daily"
         binding.buttonTimeGraph.isClickable = false
         binding.stockGraph.isClickable = false
+        binding.stockGraph.isVisible = false
         binding.buttonTimeGraph.setOnClickListener {
             if(timeState==0){
                 binding.buttonTimeGraph.text = "Weekly"
@@ -67,7 +69,10 @@ class StockDetailActivity : AppCompatActivity() {
 
         }
         GlobalScope.launch {
-            Looper.prepare()
+            if(Looper.myLooper()==null){
+                Looper.prepare()
+            }
+
             async {
                 getDailyStockDataByApiCall(Constants.DAILY, binding.detailSymbol.text.toString())
                 getWeeklyStockDataByApiCall(Constants.WEEKLY, binding.detailSymbol.text.toString())
@@ -83,12 +88,13 @@ class StockDetailActivity : AppCompatActivity() {
                 onButton()
             }
             else{
-                Toast.makeText(this@StockDetailActivity, "Please Try Again Later", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@StockDetailActivity, "Please Try Again Later", Toast.LENGTH_LONG).show()
             }
 
             binding.buttonTimeGraph.isClickable = true
             runOnUiThread {
                 binding.stockGraph.isClickable = true
+                binding.stockGraph.isVisible = true
             }
 
 
