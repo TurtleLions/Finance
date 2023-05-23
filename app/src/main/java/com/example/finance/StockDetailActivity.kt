@@ -2,6 +2,7 @@ package com.example.finance
 
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -66,6 +67,7 @@ class StockDetailActivity : AppCompatActivity() {
 
         }
         GlobalScope.launch {
+            Looper.prepare()
             async {
                 getDailyStockDataByApiCall(Constants.DAILY, binding.detailSymbol.text.toString())
                 getWeeklyStockDataByApiCall(Constants.WEEKLY, binding.detailSymbol.text.toString())
@@ -81,7 +83,7 @@ class StockDetailActivity : AppCompatActivity() {
                 onButton()
             }
             else{
-
+                Toast.makeText(this@StockDetailActivity, "Please Try Again Later", Toast.LENGTH_SHORT).show()
             }
 
             binding.buttonTimeGraph.isClickable = true
