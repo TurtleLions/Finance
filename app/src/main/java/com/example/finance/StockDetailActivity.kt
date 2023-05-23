@@ -47,7 +47,7 @@ class StockDetailActivity : AppCompatActivity() {
         binding.detailExchange.text = stock.exchange
         binding.buttonTimeGraph.text = "Daily"
         binding.buttonTimeGraph.isClickable = false
-//        lineGraphView = findViewById(R.id.idGraphView)
+        binding.stockGraph.isClickable = false
         binding.buttonTimeGraph.setOnClickListener {
             if(timeState==0){
                 binding.buttonTimeGraph.text = "Weekly"
@@ -78,6 +78,10 @@ class StockDetailActivity : AppCompatActivity() {
             Log.d(TAG, monthlyStockData.toString())
             onButton()
             binding.buttonTimeGraph.isClickable = true
+            runOnUiThread {
+                binding.stockGraph.isClickable = true
+            }
+
 
         }
 
@@ -200,13 +204,11 @@ class StockDetailActivity : AppCompatActivity() {
         binding.stockGraph.legend.isEnabled = false
         binding.stockGraph.description.isEnabled = false
         binding.stockGraph.isDragEnabled = false
+        binding.stockGraph.setScaleEnabled(false)
         binding.stockGraph.xAxis.valueFormatter = IndexAxisValueFormatter(dateArray)
         binding.stockGraph.xAxis.position = XAxis.XAxisPosition.BOTTOM
         binding.stockGraph.xAxis.labelRotationAngle = 45.toFloat()
         binding.stockGraph.extraBottomOffset = 20.toFloat()
         binding.stockGraph.invalidate()
-        binding.stockGraph.xAxis.labelRotationAngle = 90.toFloat()
-        binding.stockGraph.isDragEnabled = false
-        binding.stockGraph.xAxis.valueFormatter = IndexAxisValueFormatter()
     }
 }
