@@ -6,6 +6,9 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.finance.databinding.ActivityStockDetailBinding
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import com.jjoe64.graphview.GraphView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -13,10 +16,6 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.temporal.ChronoUnit
-import java.util.*
 
 
 //import com.jjoe64.graphview.GraphView
@@ -59,6 +58,7 @@ class StockDetailActivity : AppCompatActivity() {
                 binding.buttonTimeGraph.text = "Daily"
                 timeState=0
             }
+            onButton()
 
         }
         GlobalScope.launch {
@@ -73,23 +73,7 @@ class StockDetailActivity : AppCompatActivity() {
             Log.d(TAG, dailyStockData.toString())
             Log.d(TAG, weeklyStockData.toString())
             Log.d(TAG, monthlyStockData.toString())
-
-            var dateArray = mutableListOf<DateObject>()
-            var i = 0
-            val formatter = SimpleDateFormat("MM-dd")
-            while(i<7) {
-                val instant = Instant.now().minus(i.toLong(), ChronoUnit.DAYS)
-                val dateObject =
-                    DateObject(instant, Date.from(instant), formatter.format(Date.from(instant)))
-                dateArray.add(dateObject)
-                i += 1
-            }
-
-            val entries: MutableList<Map.Entry<*, *>> = ArrayList()
-            for (data in dateArray) {
-                // turn your data into Entry objects
-                entries.add(MutableMap.MutableEntry<Any?, Any?>(, ))
-            }
+            onButton()
 
         }
 
@@ -150,5 +134,61 @@ class StockDetailActivity : AppCompatActivity() {
                 Log.d(TAG, "onFailure: ${t.cause}")
             }
         })
+    }
+    fun onButton(){
+        Log.d("Pain", dailyStockData.dailyTimeSeries!!.toList().toString())
+        Log.d("Pain", weeklyStockData.weeklyTimeSeries!!.toList().toString())
+        Log.d("Pain", monthlyStockData.monthlyTimeSeries!!.toList().toString())
+        val dayData = dailyStockData.dailyTimeSeries!!.toList()
+        val weekData = weeklyStockData.weeklyTimeSeries!!.toList()
+        val monthData = monthlyStockData.monthlyTimeSeries!!.toList()
+        val mutableEntries = mutableListOf<Entry>()
+        if(timeState==0){
+            val lastDayPeriod = dayData.slice(0..7)
+            var i = 1
+            for (data in lastDayPeriod) {
+                // turn your data into Entry objects
+                Log.d(TAG, data.first)
+                Log.d(TAG, dailyStockData.dailyTimeSeries!!.toString())
+                Log.d(TAG, dailyStockData.dailyTimeSeries!!.get(data.first)!!.toString())
+                Log.d(TAG, dailyStockData.dailyTimeSeries!!.get(data.first)!!.get("1. open")!!)
+                val entry = Entry(i.toFloat(), dailyStockData.dailyTimeSeries!!.get(data.first)!!.get("1. open")!!.toFloat() )
+                mutableEntries.add(entry)
+                i+=1
+            }
+        }
+        else if(timeState==1){
+            val lastWeekPeriod = weekData.slice(0..7)
+            var i = 1
+            for (data in lastWeekPeriod) {
+                // turn your data into Entry objects
+                Log.d(TAG, data.first)
+                Log.d(TAG, weeklyStockData.weeklyTimeSeries!!.toString())
+                Log.d(TAG, weeklyStockData.weeklyTimeSeries!!.get(data.first)!!.toString())
+                Log.d(TAG, weeklyStockData.weeklyTimeSeries!!.get(data.first)!!.get("1. open")!!)
+                val entry = Entry(i.toFloat(), weeklyStockData.weeklyTimeSeries!!.get(data.first)!!.get("1. open")!!.toFloat() )
+                mutableEntries.add(entry)
+                i+=1
+            }
+
+        }
+        else if(timeState==2){
+            val lastWeekPeriod = monthData.slice(0..7)
+            var i = 1
+            for (data in lastWeekPeriod) {
+                // turn your data into Entry objects
+                Log.d(TAG, data.first)
+                Log.d(TAG, monthlyStockData.monthlyTimeSeries!!.toString())
+                Log.d(TAG, monthlyStockData.monthlyTimeSeries!!.get(data.first)!!.toString())
+                Log.d(TAG, monthlyStockData.monthlyTimeSeries!!.get(data.first)!!.get("1. open")!!)
+                val entry = Entry(i.toFloat(), monthlyStockData.monthlyTimeSeries!!.get(data.first)!!.get("1. open")!!.toFloat() )
+                mutableEntries.add(entry)
+                i+=1
+            }
+        }
+        val dataSet = LineDataSet(mutableEntries, "Label")
+        val lineData = LineData(dataSet)
+        binding.stockGraph.setData(lineData)
+        binding.stockGraph.invalidate()
     }
 }
