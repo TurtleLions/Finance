@@ -46,6 +46,7 @@ class StockDetailActivity : AppCompatActivity() {
         binding.detailSymbol.text = stock.ticker
         binding.detailExchange.text = stock.exchange
         binding.buttonTimeGraph.text = "Daily"
+        binding.buttonTimeGraph.isClickable = false
 //        lineGraphView = findViewById(R.id.idGraphView)
         binding.buttonTimeGraph.setOnClickListener {
             if(timeState==0){
@@ -76,6 +77,7 @@ class StockDetailActivity : AppCompatActivity() {
             Log.d(TAG, weeklyStockData.toString())
             Log.d(TAG, monthlyStockData.toString())
             onButton()
+            binding.buttonTimeGraph.isClickable = true
 
         }
 
