@@ -9,6 +9,7 @@ import com.example.finance.databinding.ActivityStockDetailBinding
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.jjoe64.graphview.GraphView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -190,5 +191,6 @@ class StockDetailActivity : AppCompatActivity() {
         val lineData = LineData(dataSet)
         binding.stockGraph.setData(lineData)
         binding.stockGraph.invalidate()
+        binding.stockGraph.xAxis.valueFormatter = IndexAxisValueFormatter()
     }
 }
