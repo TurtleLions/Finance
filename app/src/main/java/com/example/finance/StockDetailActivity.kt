@@ -3,6 +3,7 @@ package com.example.finance
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.finance.databinding.ActivityStockDetailBinding
@@ -76,7 +77,13 @@ class StockDetailActivity : AppCompatActivity() {
             Log.d(TAG, dailyStockData.toString())
             Log.d(TAG, weeklyStockData.toString())
             Log.d(TAG, monthlyStockData.toString())
-            onButton()
+            if(dailyStockData.metadata!=null&&weeklyStockData.metadata!=null&&monthlyStockData.metadata!=null){
+                onButton()
+            }
+            else{
+
+            }
+
             binding.buttonTimeGraph.isClickable = true
             runOnUiThread {
                 binding.stockGraph.isClickable = true
