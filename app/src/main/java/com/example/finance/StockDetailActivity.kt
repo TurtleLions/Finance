@@ -205,6 +205,8 @@ class StockDetailActivity : AppCompatActivity() {
         binding.stockGraph.xAxis.labelRotationAngle = 45.toFloat()
         binding.stockGraph.extraBottomOffset = 20.toFloat()
         binding.stockGraph.invalidate()
+        binding.stockGraph.xAxis.labelRotationAngle = 90.toFloat()
+        binding.stockGraph.isDragEnabled = false
         binding.stockGraph.xAxis.valueFormatter = IndexAxisValueFormatter()
     }
 }
