@@ -86,12 +86,13 @@ class StockDetailActivity : AppCompatActivity() {
             Log.d(TAG, monthlyStockData.toString())
             if(dailyStockData.metadata!=null&&weeklyStockData.metadata!=null&&monthlyStockData.metadata!=null){
                 onButton()
+                binding.buttonTimeGraph.isClickable = true
             }
             else{
                 Toast.makeText(this@StockDetailActivity, "Please Try Again Later", Toast.LENGTH_LONG).show()
             }
 
-            binding.buttonTimeGraph.isClickable = true
+
             runOnUiThread {
                 binding.stockGraph.isClickable = true
                 binding.stockGraph.isVisible = true
@@ -216,7 +217,7 @@ class StockDetailActivity : AppCompatActivity() {
         val dataSet = LineDataSet(mutableEntries,"Label")
         val lineData = LineData(dataSet)
         lineData.setValueTextSize(10f)
-        binding.stockGraph.setData(lineData)
+        binding.stockGraph.data = lineData
         binding.stockGraph.legend.isEnabled = false
         binding.stockGraph.description.isEnabled = false
         binding.stockGraph.isDragEnabled = false
