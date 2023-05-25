@@ -1,9 +1,13 @@
 package com.example.finance
 
+import android.annotation.SuppressLint
 import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.finance.databinding.ActivityPostsearchBinding
 import com.google.gson.Gson
@@ -17,6 +21,7 @@ class PostSearch : AppCompatActivity() {
     }
     private lateinit var binding:ActivityPostsearchBinding
     private lateinit var adapter:SearchAdapter
+    private lateinit var usedList:MutableList<Stock>
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "post star")
         super.onCreate(savedInstanceState)
@@ -35,7 +40,7 @@ class PostSearch : AppCompatActivity() {
         var list2 = gson.fromJson<List<Stock>>(jsonString, type).toMutableList()
         var predicate2 = Predicate { stock: Stock -> !stock.name.uppercase().contains(query) }
         var newList2 = remove(list2, predicate2)
-        var usedList = (newList1+newList2).toMutableList()
+        usedList = (newList1+newList2).toMutableList()
         adapter = SearchAdapter(usedList)
         binding.recyclerviewSearchResults.adapter = adapter
         binding.recyclerviewSearchResults.layoutManager = LinearLayoutManager(this)
@@ -45,5 +50,52 @@ class PostSearch : AppCompatActivity() {
         list.removeIf { x: Stock -> predicate.test(x) }
         val newList = list.toMutableList()
         return newList
+    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.stock_list_menu, menu)
+
+        return true
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+
+            R.id.menu_ticker ->{
+                adapter.stockList = adapter.stockList.sortedWith(compareBy<Stock> {
+                    adapter.stockList[adapter.stockList.indexOf(it)].ticker
+                }.thenBy {
+                    adapter.stockList[adapter.stockList.indexOf(it)].name
+                }.thenBy {
+                    adapter.stockList[adapter.stockList.indexOf(it)].exchange
+                }).toMutableList()
+                adapter.notifyDataSetChanged()
+                true
+            }
+            R.id.menu_name->{
+                adapter.stockList = adapter.stockList.sortedWith(compareBy<Stock> {
+                    adapter.stockList[adapter.stockList.indexOf(it)].name
+                }.thenBy {
+                    adapter.stockList[adapter.stockList.indexOf(it)].ticker
+                }.thenBy {
+                    adapter.stockList[adapter.stockList.indexOf(it)].exchange
+                }).toMutableList()
+                adapter.notifyDataSetChanged()
+                true
+            }
+            R.id.menu_exchange->{
+                adapter.stockList=adapter.stockList.sortedWith(compareBy<Stock> {
+                    adapter.stockList[adapter.stockList.indexOf(it)].exchange
+                }.thenBy {
+                    adapter.stockList[adapter.stockList.indexOf(it)].ticker
+                }.thenBy {
+                    adapter.stockList[adapter.stockList.indexOf(it)].name
+                }).toMutableList()
+                adapter.notifyDataSetChanged()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

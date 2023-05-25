@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        binding.textViewTitle.text="Type name of stock"
         binding.mainButtonStart.setOnClickListener {
             Log.d(TAG, "button clicked")
             val intent = Intent(this, PostSearch::class.java)

@@ -215,6 +215,7 @@ class StockDetailActivity : AppCompatActivity() {
         }
         val dataSet = LineDataSet(mutableEntries,"Label")
         val lineData = LineData(dataSet)
+        lineData.setValueTextSize(10f)
         binding.stockGraph.setData(lineData)
         binding.stockGraph.legend.isEnabled = false
         binding.stockGraph.description.isEnabled = false
@@ -222,8 +223,8 @@ class StockDetailActivity : AppCompatActivity() {
         binding.stockGraph.setScaleEnabled(false)
         binding.stockGraph.xAxis.valueFormatter = IndexAxisValueFormatter(dateArray)
         binding.stockGraph.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        binding.stockGraph.xAxis.labelRotationAngle = 45.toFloat()
-        binding.stockGraph.extraBottomOffset = 20.toFloat()
+        binding.stockGraph.xAxis.labelRotationAngle = 45f
+        binding.stockGraph.extraBottomOffset = 20f
         binding.stockGraph.invalidate()
     }
 }
