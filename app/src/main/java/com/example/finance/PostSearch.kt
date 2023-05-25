@@ -1,10 +1,8 @@
 package com.example.finance
 
 import android.annotation.SuppressLint
-import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -23,7 +21,6 @@ class PostSearch : AppCompatActivity() {
     private lateinit var adapter:SearchAdapter
     private lateinit var usedList:MutableList<Stock>
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "post star")
         super.onCreate(savedInstanceState)
         binding = ActivityPostsearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -59,7 +56,6 @@ class PostSearch : AppCompatActivity() {
     }
     @SuppressLint("NotifyDataSetChanged")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
         return when (item.itemId) {
 
             R.id.menu_ticker ->{

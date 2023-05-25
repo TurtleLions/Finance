@@ -14,7 +14,6 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.jjoe64.graphview.GraphView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -23,9 +22,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-//import com.jjoe64.graphview.GraphView
-//import com.jjoe64.graphview.series.DataPoint
-//import com.jjoe64.graphview.series.LineGraphSeries
 
 class StockDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStockDetailBinding
@@ -33,7 +29,6 @@ class StockDetailActivity : AppCompatActivity() {
     private lateinit var dailyStockData:StockData
     private lateinit var weeklyStockData:StockData
     private lateinit var monthlyStockData:StockData
-    private lateinit var lineGraphView: GraphView
     private var timeState = 0
     companion object{
         val TAG = "Stock Detail Activity"
@@ -52,6 +47,7 @@ class StockDetailActivity : AppCompatActivity() {
         binding.buttonTimeGraph.isClickable = false
         binding.stockGraph.isClickable = false
         binding.stockGraph.isVisible = false
+        binding.buttonTimeGraph.isClickable=false
         binding.buttonTimeGraph.setOnClickListener {
             if(timeState==0){
                 binding.buttonTimeGraph.text = "Weekly"
@@ -81,9 +77,6 @@ class StockDetailActivity : AppCompatActivity() {
             while (!this@StockDetailActivity::dailyStockData.isInitialized || !this@StockDetailActivity::weeklyStockData.isInitialized || !this@StockDetailActivity::monthlyStockData.isInitialized) {
 
             }
-            Log.d(TAG, dailyStockData.toString())
-            Log.d(TAG, weeklyStockData.toString())
-            Log.d(TAG, monthlyStockData.toString())
             if(dailyStockData.metadata!=null&&weeklyStockData.metadata!=null&&monthlyStockData.metadata!=null){
                 onButton()
                 binding.buttonTimeGraph.isClickable = true
@@ -91,20 +84,15 @@ class StockDetailActivity : AppCompatActivity() {
             else{
                 Toast.makeText(this@StockDetailActivity, "Please Try Again Later", Toast.LENGTH_LONG).show()
             }
-
-
             runOnUiThread {
                 binding.stockGraph.isClickable = true
                 binding.stockGraph.isVisible = true
             }
-
-
         }
 
     }
     suspend fun getDailyStockDataByApiCall(function:String, symbol:String) {
         val FinanceDataService = RetrofitHelper.getInstance().create(FinanceDataService::class.java)
-        Log.d(TAG, function +" "+symbol)
         val stockDataCall = FinanceDataService.getStockData(function,
             symbol, Constants.API_KEY)
         stockDataCall.enqueue(object: Callback<StockData> {
@@ -112,7 +100,6 @@ class StockDetailActivity : AppCompatActivity() {
                 call: Call<StockData>,
                 response: Response<StockData>
             ) {
-                Log.d(TAG, "onResponse: ${response.body()}")
                 dailyStockData = response.body()!!
             }
 
@@ -123,7 +110,6 @@ class StockDetailActivity : AppCompatActivity() {
     }
     suspend fun getWeeklyStockDataByApiCall(function:String, symbol:String) {
         val FinanceDataService = RetrofitHelper.getInstance().create(FinanceDataService::class.java)
-        Log.d(TAG, function +" "+symbol)
         val stockDataCall = FinanceDataService.getStockData(function,
             symbol, Constants.API_KEY)
         stockDataCall.enqueue(object: Callback<StockData> {
@@ -131,7 +117,6 @@ class StockDetailActivity : AppCompatActivity() {
                 call: Call<StockData>,
                 response: Response<StockData>
             ) {
-                Log.d(TAG, "onResponse: ${response.body()}")
                 weeklyStockData = response.body()!!
             }
 
@@ -142,7 +127,6 @@ class StockDetailActivity : AppCompatActivity() {
     }
     suspend fun getMonthStockDataByApiCall(function:String, symbol:String) {
         val FinanceDataService = RetrofitHelper.getInstance().create(FinanceDataService::class.java)
-        Log.d(TAG, function +" "+symbol)
         val stockDataCall = FinanceDataService.getStockData(function,
             symbol, Constants.API_KEY)
         stockDataCall.enqueue(object: Callback<StockData> {
@@ -150,7 +134,6 @@ class StockDetailActivity : AppCompatActivity() {
                 call: Call<StockData>,
                 response: Response<StockData>
             ) {
-                Log.d(TAG, "onResponse: ${response.body()}")
                 monthlyStockData = response.body()!!
             }
 
@@ -160,9 +143,6 @@ class StockDetailActivity : AppCompatActivity() {
         })
     }
     fun onButton(){
-        Log.d("Pain", dailyStockData.dailyTimeSeries!!.toList().toString())
-        Log.d("Pain", weeklyStockData.weeklyTimeSeries!!.toList().toString())
-        Log.d("Pain", monthlyStockData.monthlyTimeSeries!!.toList().toString())
         val dayData = dailyStockData.dailyTimeSeries!!.toList()
         val weekData = weeklyStockData.weeklyTimeSeries!!.toList()
         val monthData = monthlyStockData.monthlyTimeSeries!!.toList()
@@ -172,11 +152,6 @@ class StockDetailActivity : AppCompatActivity() {
             val lastDayPeriod = dayData.slice(0..7).reversed()
             var i = 0
             for (data in lastDayPeriod) {
-                // turn your data into Entry objects
-                Log.d(TAG, data.first)
-                Log.d(TAG, dailyStockData.dailyTimeSeries!!.toString())
-                Log.d(TAG, dailyStockData.dailyTimeSeries!!.get(data.first)!!.toString())
-                Log.d(TAG, dailyStockData.dailyTimeSeries!!.get(data.first)!!.get("2. high")!!)
                 val entry = Entry(i.toFloat(), dailyStockData.dailyTimeSeries!!.get(data.first)!!.get("2. high")!!.toFloat() )
                 mutableEntries.add(entry)
                 dateArray.add(data.first.substring(5))
@@ -187,11 +162,6 @@ class StockDetailActivity : AppCompatActivity() {
             val lastWeekPeriod = weekData.slice(0..7).reversed()
             var i = 0
             for (data in lastWeekPeriod) {
-                // turn your data into Entry objects
-                Log.d(TAG, data.first)
-                Log.d(TAG, weeklyStockData.weeklyTimeSeries!!.toString())
-                Log.d(TAG, weeklyStockData.weeklyTimeSeries!!.get(data.first)!!.toString())
-                Log.d(TAG, weeklyStockData.weeklyTimeSeries!!.get(data.first)!!.get("2. high")!!)
                 val entry = Entry(i.toFloat(), weeklyStockData.weeklyTimeSeries!!.get(data.first)!!.get("2. high")!!.toFloat() )
                 mutableEntries.add(entry)
                 dateArray.add(data.first.substring(5))
@@ -203,11 +173,6 @@ class StockDetailActivity : AppCompatActivity() {
             val lastWeekPeriod = monthData.slice(0..7).reversed()
             var i = 0
             for (data in lastWeekPeriod) {
-                // turn your data into Entry objects
-                Log.d(TAG, data.first)
-                Log.d(TAG, monthlyStockData.monthlyTimeSeries!!.toString())
-                Log.d(TAG, monthlyStockData.monthlyTimeSeries!!.get(data.first)!!.toString())
-                Log.d(TAG, monthlyStockData.monthlyTimeSeries!!.get(data.first)!!.get("2. high")!!)
                 val entry = Entry(i.toFloat(), monthlyStockData.monthlyTimeSeries!!.get(data.first)!!.get("2. high")!!.toFloat() )
                 mutableEntries.add(entry)
                 dateArray.add(data.first.substring(5))

@@ -12,16 +12,4 @@ interface FinanceDataService {
         @Query("symbol") symbol:String,
         @Query("apikey") api_key:String
     ):Call<StockData>
-    /**@GET
-    fun getWeeklyStockData(
-        @Query("function") function: String,
-        @Query("symbol") symbol:String,
-        @Query("apikey") api_key:String
-    ):Call<StockData>
-    @GET
-    fun getMonthlyStockData(
-        @Query("function") function: String,
-        @Query("symbol") symbol:String,
-        @Query("apikey") api_key:String
-    ):Call<StockData>**/
 }
